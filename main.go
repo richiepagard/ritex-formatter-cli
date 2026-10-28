@@ -2,6 +2,9 @@ package main
 
 import (
 	"fmt"
+	"bufio"
+	"os"
+	"strings"
 
 	"github.com/spf13/cobra"
 )
@@ -59,4 +62,63 @@ func init() {
 		false,
 		"Count the characters of the text",
 	)
+}
+
+func run_text_formatter(cmd *cobra.Command, args []string) {
+	var text string;
+
+	// Check whether the input from function "args" or "stdin"
+	if len(args) > 0 {
+		text = strings.Join(args, " ");
+	} else {
+		// Read from "stdin"
+		scanner := bufio.NewScanner(os.Stdin);
+		var lines []string;
+
+		for scanner.Scan() {
+			lines = append(lines, scanner.Text());
+		}
+		text = strings.Join(lines, "\n");
+	}
+
+	if text == "" {
+		fmt.Println("No input text provided");
+		return
+	}
+
+	result := text;
+
+	// Apply formatting transformations
+	if uppercase {
+		result = strings.ToUpper(result);
+	}
+	if lowercase {
+		result = strings.ToLower(result);
+	}
+	if titlecase {
+		result = strings.ToTitle(result);
+	}
+
+	// Formatted text output
+	fmt.Println(result);
+
+	// Analysis if requested
+	if wordcount {
+		words := len(strings.Fields(text));
+		fmt.Printf("Words: %d\n", words);
+	}
+	if charcount {
+		chars := len(text);
+		fmt.Printf("Characters: %d\n", chars);
+	}
+}
+
+
+func main() {
+	if err := root_cmd.Execute(); err != nil {
+		fmt.Println(err);
+
+		// Execute exit code to exit the program
+		os.Exit(1);
+	}
 }
