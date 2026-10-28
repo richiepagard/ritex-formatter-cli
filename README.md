@@ -1,4 +1,6 @@
 # ritex-formatter-cli
+> Richie Text Formatter CLI
+
 
 <p align="center">
   <img src="https://img.shields.io/badge/Go-1.24%2B-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go" />
@@ -13,8 +15,8 @@ Richie Text Formatter :| a minimal CLI for transforming and analyzing text from 
 
 - Convert text to uppercase, lowercase, or title case
 - Count words and characters
-- Accept input from arguments or stdin
-- Lightweight and fast with Go
+- Accept input from arguments or `stdin`
+- Lightweight and fast with **Go**
 
 ## Usage
 
