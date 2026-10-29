@@ -1,15 +1,12 @@
 # ritex-formatter-cli
 > Richie Text Formatter CLI
 
+Richie Text Formatter :|
 
-<p align="center">
-  <img src="https://img.shields.io/badge/Go-1.24%2B-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go" />
-  <img src="https://img.shields.io/badge/Cobra-CLI-FF6B6B?style=for-the-badge&logo=go&logoColor=white" alt="Cobra" />
-  <img src="https://img.shields.io/badge/Terminal-Tool-4CAF50?style=for-the-badge&logo=gnome-terminal&logoColor=white" alt="Terminal" />
-  <img src="https://img.shields.io/badge/Format-Text-9C27B0?style=for-the-badge" alt="Format" />
-</p>
+a minimal CLI for transforming and analyzing text from the terminal.
 
-Richie Text Formatter :| a minimal CLI for transforming and analyzing text from the terminal.
+[![Golang](https://go-skill-icons.vercel.app/api/icons?i=go)](https://go.dev/doc/) __
+[![Environment](https://go-skill-icons.vercel.app/api/icons?i=bash,powershell)](https://cobra.dev/)
 
 ## Features
 
