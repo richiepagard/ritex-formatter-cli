@@ -29,6 +29,7 @@ echo "Hello there" | go run . --title
 - `-u, --upper` — convert to uppercase
 - `-l, --lower` — convert to lowercase
 - `-t, --title` — convert to title case
+- `-r, --reverse` - reverse the text
 - `--words` — count words
 - `--chars` — count characters
 
