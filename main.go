@@ -14,6 +14,7 @@ var (
 	uppercase bool
 	lowercase bool
 	titlecase bool
+	reverse_text bool
 	wordcount bool
 	charcount bool
 )
@@ -26,6 +27,15 @@ var root_cmd = &cobra.Command {
 	Multiple formatting options can be applied simultaneously.`,
 	Args: cobra.ArbitraryArgs,
 	Run: run_text_formatter,
+}
+
+func main() {
+	if err := root_cmd.Execute(); err != nil {
+		fmt.Println(err);
+
+		// Execute exit code to exit the program
+		os.Exit(1);
+	}
 }
 
 
@@ -47,6 +57,12 @@ func init() {
 		"title", "t",
 		false,
 		"Convert text to Title Case",
+	)
+	root_cmd.Flags().BoolVarP(
+		&reverse_text,
+		"reverse", "r",
+		false,
+		"Reversing the text",
 	)
 
 	// Analysis
@@ -96,7 +112,10 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 		result = strings.ToLower(result);
 	}
 	if titlecase {
-		result = strings.ToTitle(result);
+		result = strings.Title(result);
+	}
+	if reverse_text {
+		result = text_reverser(result);
 	}
 
 	// Formatted text output
@@ -114,11 +133,17 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 }
 
 
-func main() {
-	if err := root_cmd.Execute(); err != nil {
-		fmt.Println(err);
+func text_reverser(text string) string {
+	var (
+		last int = len(text) - 1;
+		first int = 0;
+	)
+	reversed := make([]byte, len(text));
 
-		// Execute exit code to exit the program
-		os.Exit(1);
+	for char := last; char >= 0; char-- {
+		reversed[first] = text[char];
+		first++;
 	}
+
+	return string(reversed);
 }
