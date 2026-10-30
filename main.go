@@ -17,6 +17,8 @@ var (
 	titlecase bool
 	reverse_text bool
 	remove_space bool
+
+	palindrome bool
 	wordcount bool
 	charcount bool
 )
@@ -86,6 +88,12 @@ func init() {
 		false,
 		"Count the characters of the text",
 	)
+	root_cmd.Flags().BoolVarP(
+		&palindrome,
+		"palindrome", "p",
+		false,
+		"Checks whether the input text is palindrome",
+	)
 }
 
 func run_text_formatter(cmd *cobra.Command, args []string) {
@@ -143,6 +151,15 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 	if charcount {
 		chars := len(text);
 		fmt.Printf("Characters: %d\n", chars);
+	}
+	if palindrome {
+		palindrome_status, _ := valid_palindrome(result);
+		switch palindrome_status {
+			case false:
+				fmt.Println("Not a palindrome text");
+			case true:
+				fmt.Println("Valid palindrome text");
+		}
 	}
 }
 
