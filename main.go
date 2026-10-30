@@ -177,3 +177,25 @@ func non_alphanum_remover(text string) (alphanum_text string) {
 
 	return
 }
+
+func valid_palindrome(text string) (is_palindrome bool, palindrome_text string) {
+	palindrme_text := text;
+	text = non_alphanum_remover(text);
+	var first, last int = 0, len(text)-1;
+
+	for first < last {
+		if text[first] == text[last] {
+			first++;
+			last--;
+		} else {
+			break;
+		}
+	}
+
+	if first == last {
+		return true, palindrme_text;
+	}
+
+	fmt.Println();
+	return false, palindrme_text;
+}
