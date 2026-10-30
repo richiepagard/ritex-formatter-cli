@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"os"
 	"strings"
+	"regexp"
 
 	"github.com/spf13/cobra"
 )
@@ -164,6 +165,15 @@ func text_reverser(text string) string {
 func space_remover(text string) (nospace string) {
 	var replacer = strings.NewReplacer(" ", "", "\t", "");
 	nospace = replacer.Replace(text);
+
+	return
+}
+
+func non_alphanum_remover(text string) (alphanum_text string) {
+	var non_alphanumeric_regex = regexp.MustCompile(`[^a-zA-Z0-9s]+`);
+
+	alphanum_text = non_alphanumeric_regex.ReplaceAllString(text, "");
+	alphanum_text  = strings.ToLower(alphanum_text);
 
 	return
 }
