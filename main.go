@@ -107,19 +107,20 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 	// Apply formatting transformations
 	if uppercase {
 		result = strings.ToUpper(result);
+		fmt.Printf("Uppercase: %#v\n", result);
 	}
 	if lowercase {
 		result = strings.ToLower(result);
-	}
-	if titlecase {
-		result = strings.Title(result);
+		fmt.Printf("Lowercase: %#v\n", result);
 	}
 	if reverse_text {
 		result = text_reverser(result);
+		fmt.Printf("Reversed text: %#v\n", result);
 	}
-
-	// Formatted text output
-	fmt.Println(result);
+	if titlecase {
+		result = strings.Title(result);
+		fmt.Printf("Titlecase: %#v\n", result);
+	}
 
 	// Analysis if requested
 	if wordcount {
