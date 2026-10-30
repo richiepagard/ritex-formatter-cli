@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"os"
 	"strings"
+	"regexp"
 
 	"github.com/spf13/cobra"
 )
@@ -16,6 +17,8 @@ var (
 	titlecase bool
 	reverse_text bool
 	remove_space bool
+
+	palindrome bool
 	wordcount bool
 	charcount bool
 )
@@ -85,6 +88,12 @@ func init() {
 		false,
 		"Count the characters of the text",
 	)
+	root_cmd.Flags().BoolVarP(
+		&palindrome,
+		"palindrome", "p",
+		false,
+		"Checks whether the input text is palindrome",
+	)
 }
 
 func run_text_formatter(cmd *cobra.Command, args []string) {
@@ -143,6 +152,15 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 		chars := len(text);
 		fmt.Printf("Characters: %d\n", chars);
 	}
+	if palindrome {
+		palindrome_status, _ := valid_palindrome(result);
+		switch palindrome_status {
+			case false:
+				fmt.Println("Not a palindrome text");
+			case true:
+				fmt.Println("Valid palindrome text");
+		}
+	}
 }
 
 
@@ -166,4 +184,35 @@ func space_remover(text string) (nospace string) {
 	nospace = replacer.Replace(text);
 
 	return
+}
+
+func non_alphanum_remover(text string) (alphanum_text string) {
+	var non_alphanumeric_regex = regexp.MustCompile(`[^a-zA-Z0-9s]+`);
+
+	alphanum_text = non_alphanumeric_regex.ReplaceAllString(text, "");
+	alphanum_text  = strings.ToLower(alphanum_text);
+
+	return
+}
+
+func valid_palindrome(text string) (is_palindrome bool, palindrome_text string) {
+	palindrme_text := text;
+	text = non_alphanum_remover(text);
+	var first, last int = 0, len(text)-1;
+
+	for first < last {
+		if text[first] == text[last] {
+			first++;
+			last--;
+		} else {
+			break;
+		}
+	}
+
+	if first == last {
+		return true, palindrme_text;
+	}
+
+	fmt.Println();
+	return false, palindrme_text;
 }
