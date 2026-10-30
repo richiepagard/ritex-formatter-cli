@@ -30,6 +30,7 @@ echo "Hello there" | go run . --title
 - `-l, --lower` — convert to lowercase
 - `-t, --title` — convert to title case
 - `-r, --reverse` - reverse the text
+- `s, --remove-spaces` - remove the text spaces and tabs
 - `--words` — count words
 - `--chars` — count characters
 
