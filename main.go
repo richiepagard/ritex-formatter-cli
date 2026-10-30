@@ -15,6 +15,7 @@ var (
 	lowercase bool
 	titlecase bool
 	reverse_text bool
+	remove_space bool
 	wordcount bool
 	charcount bool
 )
@@ -64,6 +65,12 @@ func init() {
 		false,
 		"Reversing the text",
 	)
+	root_cmd.Flags().BoolVarP(
+		&remove_space,
+		"remove-spaces", "s",
+		false,
+		"Removing spaces",
+	)
 
 	// Analysis
 	root_cmd.Flags().BoolVar(
@@ -105,6 +112,7 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 	result := text;
 
 	// Apply formatting transformations
+	// Space remover only use if reverse text does not requested
 	if uppercase {
 		result = strings.ToUpper(result);
 		fmt.Printf("Uppercase: %#v\n", result);
@@ -120,6 +128,10 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 	if titlecase {
 		result = strings.Title(result);
 		fmt.Printf("Titlecase: %#v\n", result);
+	}
+	if remove_space && !reverse_text {
+		result = space_remover(result);
+		fmt.Printf("Removed spaces: %#v\n", result);
 	}
 
 	// Analysis if requested
@@ -147,4 +159,11 @@ func text_reverser(text string) string {
 	}
 
 	return string(reversed);
+}
+
+func space_remover(text string) (nospace string) {
+	var replacer = strings.NewReplacer(" ", "", "\t", "");
+	nospace = replacer.Replace(text);
+
+	return
 }
