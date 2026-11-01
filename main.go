@@ -5,10 +5,9 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"regexp"
-
-	"github.com/spf13/cobra"
 )
+import "github.com/spf13/cobra"
+import "ritexfmt/tools"
 
 
 var (
@@ -139,7 +138,7 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 		fmt.Printf("Titlecase: %#v\n", result);
 	}
 	if remove_space && !reverse_text {
-		result = space_remover(result);
+		result = tools.SpaceRemover(result);
 		fmt.Printf("Removed spaces: %#v\n", result);
 	}
 
@@ -179,25 +178,10 @@ func text_reverser(text string) string {
 	return string(reversed);
 }
 
-func space_remover(text string) (nospace string) {
-	var replacer = strings.NewReplacer(" ", "", "\t", "");
-	nospace = replacer.Replace(text);
-
-	return
-}
-
-func non_alphanum_remover(text string) (alphanum_text string) {
-	var non_alphanumeric_regex = regexp.MustCompile(`[^a-zA-Z0-9s]+`);
-
-	alphanum_text = non_alphanumeric_regex.ReplaceAllString(text, "");
-	alphanum_text  = strings.ToLower(alphanum_text);
-
-	return
-}
 
 func valid_palindrome(text string) (is_palindrome bool, palindrome_text string) {
 	palindrme_text := text;
-	text = non_alphanum_remover(text);
+	text = tools.NonAlphanumRemover(text);
 	var first, last int = 0, len(text)-1;
 
 	for first < last {
@@ -209,7 +193,7 @@ func valid_palindrome(text string) (is_palindrome bool, palindrome_text string) 
 		}
 	}
 
-	if first == last {
+	if first >= last {
 		return true, palindrme_text;
 	}
 
