@@ -5,9 +5,11 @@ import (
 	"bufio"
 	"os"
 	"strings"
-	"regexp"
-
-	"github.com/spf13/cobra"
+)
+import "github.com/spf13/cobra"
+import (
+	"ritexfmt/internal/format"
+	"ritexfmt/internal/analyze"
 )
 
 
@@ -123,37 +125,37 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 	// Apply formatting transformations
 	// Space remover only use if reverse text does not requested
 	if uppercase {
-		result = strings.ToUpper(result);
+		result = format.Upper(result);
 		fmt.Printf("Uppercase: %#v\n", result);
 	}
 	if lowercase {
-		result = strings.ToLower(result);
+		result = format.Lower(result);
 		fmt.Printf("Lowercase: %#v\n", result);
 	}
 	if reverse_text {
-		result = text_reverser(result);
+		result = format.TextReverse(result);
 		fmt.Printf("Reversed text: %#v\n", result);
 	}
 	if titlecase {
-		result = strings.Title(result);
+		result = format.Title(result);
 		fmt.Printf("Titlecase: %#v\n", result);
 	}
 	if remove_space && !reverse_text {
-		result = space_remover(result);
+		result = format.SpaceRemover(result);
 		fmt.Printf("Removed spaces: %#v\n", result);
 	}
 
 	// Analysis if requested
 	if wordcount {
-		words := len(strings.Fields(text));
+		words := analyze.Words(result);
 		fmt.Printf("Words: %d\n", words);
 	}
 	if charcount {
-		chars := len(text);
+		chars := analyze.Chars(result);
 		fmt.Printf("Characters: %d\n", chars);
 	}
 	if palindrome {
-		palindrome_status, _ := valid_palindrome(result);
+		palindrome_status, _ := analyze.ValidPalindrome(result);
 		switch palindrome_status {
 			case false:
 				fmt.Println("Not a palindrome text");
@@ -161,58 +163,4 @@ func run_text_formatter(cmd *cobra.Command, args []string) {
 				fmt.Println("Valid palindrome text");
 		}
 	}
-}
-
-
-func text_reverser(text string) string {
-	var (
-		last int = len(text) - 1;
-		first int = 0;
-	)
-	reversed := make([]byte, len(text));
-
-	for char := last; char >= 0; char-- {
-		reversed[first] = text[char];
-		first++;
-	}
-
-	return string(reversed);
-}
-
-func space_remover(text string) (nospace string) {
-	var replacer = strings.NewReplacer(" ", "", "\t", "");
-	nospace = replacer.Replace(text);
-
-	return
-}
-
-func non_alphanum_remover(text string) (alphanum_text string) {
-	var non_alphanumeric_regex = regexp.MustCompile(`[^a-zA-Z0-9s]+`);
-
-	alphanum_text = non_alphanumeric_regex.ReplaceAllString(text, "");
-	alphanum_text  = strings.ToLower(alphanum_text);
-
-	return
-}
-
-func valid_palindrome(text string) (is_palindrome bool, palindrome_text string) {
-	palindrme_text := text;
-	text = non_alphanum_remover(text);
-	var first, last int = 0, len(text)-1;
-
-	for first < last {
-		if text[first] == text[last] {
-			first++;
-			last--;
-		} else {
-			break;
-		}
-	}
-
-	if first == last {
-		return true, palindrme_text;
-	}
-
-	fmt.Println();
-	return false, palindrme_text;
 }
