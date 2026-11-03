@@ -33,7 +33,7 @@ echo "Hello there" | go run . --title
 - `-s, --remove-spaces` - remove the text spaces and tabs
 - `--words` — count words
 - `--chars` — count characters
-- `-p, --palindrome` - palindrome validation for the input text
+- `--palindrome` - palindrome validation for the input text
 
 ## Example
 
